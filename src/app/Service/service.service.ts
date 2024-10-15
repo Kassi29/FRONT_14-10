@@ -52,4 +52,10 @@ export class ServiceService {
   delete(usuario: usuario): Observable<void> {
     return this.http.delete<void>(`${this.url}/eliminar/${usuario.id}`);
   }
+
+  //LISTAR USUARIO X ROLE
+  getUsersByRole(role: string): Observable<usuario[]> {
+    return this.http.get<usuario[]>(`${this.url}/filterByRole/${role}`);
+  }
+
 }

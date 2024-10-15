@@ -4,6 +4,8 @@ import { producto } from '../model/producto';
 import { ProductosService } from '../service/productos.service';
 import { categoria } from 'src/app/categorias/model/categoria';
 import { CategoriasService } from 'src/app/categorias/service/categorias.service';
+import { ServiceService } from "../../Service/service.service";
+import { usuario } from "../../links/register/model/usuario";
 
 @Component({
   selector: 'app-catalogo',
@@ -19,12 +21,16 @@ export class CatalogoComponent implements OnInit {
   selectedQuantity: number = 1; // Cantidad seleccionada
   isModalOpen: boolean = false; // Estado del modal
   dropdownOpen: boolean = false; // Estado del dropdown
+  sellers: usuario[] = [];
+  selectedSellers: usuario[] = []; // Para almacenar artesanos seleccionados
+  selectedCategories: number[] = []; // Para almacenar IDs de categorías seleccionadas
 
   registerForm: FormGroup;
 
   constructor(
     private productosService: ProductosService,
     private categoriasService: CategoriasService,
+    private service: ServiceService,
     private formBuilder: FormBuilder
   ) {
     this.registerForm = this.formBuilder.group({
@@ -35,6 +41,7 @@ export class CatalogoComponent implements OnInit {
   ngOnInit(): void {
     this.loadProductos();
     this.loadCategorias();
+    this.loadSellers();
   }
 
   loadProductos(): void {
@@ -65,12 +72,22 @@ export class CatalogoComponent implements OnInit {
     );
   }
 
-  // Nuevo método para mostrar todos los productos
+  loadSellers(): void {
+    this.service.getUsersByRole('ROLE_SELLER').subscribe(
+      sellers => {
+        this.sellers = sellers;
+        console.log('Vendedores cargados:', this.sellers);
+      },
+      error => {
+        console.error('Error al cargar los vendedores:', error);
+      }
+    );
+  }
+
   showAllProducts(): void {
     this.filteredProductos = [...this.productos]; // Mostrar todos los productos
   }
 
-  // Resto del código permanece igual
   agregarAlCarrito(producto: producto, cantidad: number): void {
     console.log(`Agregar ${cantidad} unidades de ${producto.name} al carrito.`);
   }
@@ -93,18 +110,62 @@ export class CatalogoComponent implements OnInit {
   }
 
   onCategoryChange(categoriaId: number): void {
-    console.log('Categoría seleccionada:', categoriaId);
-    this.dropdownOpen = false; // Cierra el menú después de seleccionar
-    this.filterByCategory(categoriaId.toString());
+    const index = this.selectedCategories.indexOf(categoriaId);
+    if (index === -1) {
+      this.selectedCategories.push(categoriaId); // Agregar la categoría si no está seleccionada
+    } else {
+      this.selectedCategories.splice(index, 1); // Eliminar la categoría si ya está seleccionada
+    }
+    this.filterProducts(); // Filtra los productos cada vez que cambie la selección
   }
 
-  filterByCategory(categoryId: string): void {
-    if (categoryId) {
-      this.filteredProductos = this.productos.filter(producto =>
-        producto.categories.some(cat => cat.id.toString() === categoryId)
-      );
+
+  onSellerChange(seller: usuario): void {
+    const index = this.selectedSellers.findIndex(s => s.id === seller.id);
+    if (index === -1) {
+      this.selectedSellers.push(seller); // Agrega el artesano seleccionado
     } else {
-      this.filteredProductos = [...this.productos]; // Mostrar todos si no hay filtro
+      this.selectedSellers.splice(index, 1); // Elimina el artesano si ya estaba seleccionado
+    }
+    this.filterProducts(); // Filtra los productos cada vez que cambie la selección
+  }
+
+  filterProducts(): void {
+    this.filteredProductos = this.productos.filter(producto => {
+      const categoryMatch = this.selectedCategories.length === 0 ||
+        producto.categories.some(cat => this.selectedCategories.includes(cat.id));
+
+      const sellerMatch = this.selectedSellers.length === 0 ||
+        this.selectedSellers.some(seller => seller.email === producto.sellerEmail);
+
+      return categoryMatch && sellerMatch; // Retorna verdadero si cumple con ambas condiciones
+    });
+  }
+
+  clearFilters(): void {
+    this.selectedCategories = [];
+    this.selectedSellers = [];
+    this.filteredProductos = [...this.productos]; // Restablecer a todos los productos
+  }
+
+  removeCategory(categoryId: number): void {
+    const index = this.selectedCategories.indexOf(categoryId);
+    if (index !== -1) {
+      this.selectedCategories.splice(index, 1);
+      this.filterProducts(); // Filtra nuevamente después de eliminar
     }
   }
+
+  removeSeller(seller: usuario): void {
+    const index = this.selectedSellers.indexOf(seller);
+    if (index !== -1) {
+      this.selectedSellers.splice(index, 1);
+      this.filterProducts(); // Filtra nuevamente después de eliminar
+    }
+  }
+  getCategoryName(categoryId: number): string | undefined {
+    const category = this.categorias.find(cat => cat.id === categoryId);
+    return category ? category.name : undefined;
+  }
+
 }

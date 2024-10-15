@@ -20,7 +20,8 @@ export class AuthInterceptor implements HttpInterceptor {
     const exemptedUrls = [
       'http://localhost:8080/users/register',
       'http://localhost:8080/products',
-      'http://localhost:8080/categories'
+      'http://localhost:8080/categories',
+      'http://localhost:8080/users/filterByRole/ROLE_SELLER'
     ];
 
     // Verifica si la URL está en la lista de excepciones

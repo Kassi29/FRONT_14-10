@@ -3,32 +3,50 @@
 
   <div class="filters">
     <div class="category-dropdown">
-      <button class="dropdown-btn" (click)="toggleDropdown()">
-        Selecciona una categoría <i class="arrow-down"></i>
-      </button>
-      <ul class="category-list" [class.show]="dropdownOpen">
-        <li (click)="onCategoryChange(categoria.id)" *ngFor="let categoria of categorias">
+      <h3>Selecciona una Categoría:</h3>
+      <ul>
+        <li *ngFor="let categoria of categorias">
+          <input type="checkbox"
+                 [checked]="selectedCategories.includes(categoria.id)"
+                 (change)="onCategoryChange(categoria.id)" />
           {{ categoria.name }}
         </li>
-        <li (click)="showAllProducts()">Mostrar Todos los Productos</li> <!-- Botón para mostrar todos -->
+      </ul>
+      <button (click)="showAllProducts()">Mostrar Todos los Productos</button>
+    </div>
+
+    <div class="sellers-dropdown">
+      <h3>Selecciona un Artesano:</h3>
+      <ul>
+        <li *ngFor="let seller of sellers" (click)="onSellerChange(seller)">
+          <input type="checkbox" [checked]="selectedSellers.includes(seller)" /> {{ seller.email }}
+        </li>
       </ul>
     </div>
-  </div>
 
-  <div class="catalog-container">
-    <div class="product-card" *ngFor="let producto of filteredProductos">
-      <img routerLink="/verPro" [src]="producto.imageUrl" alt="{{ producto.name }}" class="product-image" />
-      <div class="product-info">
-        <h3 class="product-title">{{ producto.name }}</h3>
-        <p class="product-description"><strong>Descripción:</strong> {{ producto.description }}</p>
-        <p><strong>Categorías:</strong>
-          <span *ngFor="let category of producto.categories">
-            {{ category.name }}<span *ngIf="!lastCategory(category)">, </span>
-          </span>
-        </p>
-        <p><strong>Stock:</strong> {{ producto.stock }}</p>
-        <p><strong>Precio:</strong> ${{ producto.price }}</p>
-        <p><strong>Vendedor:</strong> {{ producto.sellerEmail}}</p>
+    <button (click)="clearFilters()">Limpiar Filtros</button>
+
+
+
+
+    <div class="catalog-container">
+      <div *ngIf="filteredProductos.length === 0" class="no-products-message">
+        <p>No se encontraron productos que coincidan con los filtros seleccionados.</p>
+      </div>
+      <div class="product-card" *ngFor="let producto of filteredProductos">
+        <img routerLink="/verPro" [src]="producto.imageUrl" alt="{{ producto.name }}" class="product-image" />
+        <div class="product-info">
+          <h3 class="product-title">{{ producto.name }}</h3>
+          <p class="product-description"><strong>Descripción:</strong> {{ producto.description }}</p>
+          <p><strong>Categorías:</strong>
+            <span *ngFor="let category of producto.categories">
+          {{ category.name }}<span *ngIf="!lastCategory(category)">, </span>
+        </span>
+          </p>
+          <p><strong>Stock:</strong> {{ producto.stock }}</p>
+          <p><strong>Precio:</strong> ${{ producto.price }}</p>
+          <p><strong>Vendedor:</strong> {{ producto.sellerEmail }}</p>
+        </div>
       </div>
     </div>
   </div>
