@@ -1,0 +1,36 @@
+
+<div class="container">
+    <h2 *ngIf="!isCreatingArtesano">Lista De Artesanos</h2>
+  
+    <div *ngIf="!isCreatingArtesano">
+      <div class="table-container">
+        <table>
+          <thead>
+          <tr>
+            <th>Usuario</th>
+            <th>Apellidos</th>
+            <th>Email</th>
+            <th>Acciones</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let artesano of artesanos; let i = index">
+            <td>{{ artesano.user ? artesano.user.name : 'No User' }}</td>
+            <td>{{ artesano.user ? artesano.user.lastname : 'No Apellido' }}</td>
+            <td>{{ artesano.user ? artesano.user.email : 'No Email' }}</td>
+            <td>
+  
+              <button (click)="deleteArtesano(artesano)" class="btn delete-button" title="Eliminar">
+                <i class="fas fa-trash-alt"></i>
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+  
+      <div *ngIf="artesanos.length === 0" class="no-deliveries">
+        <p>No hay artesanos disponibles.</p>
+      </div>
+    </div>
+  </div>

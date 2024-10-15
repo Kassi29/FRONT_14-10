@@ -1,0 +1,88 @@
+
+<div class="container">
+  <h2>Lista De Almacenes</h2>
+  <div class="table-container">
+    <table>
+      <thead>
+      <tr>
+        <th>Id</th>
+        <th>Nombre</th>
+        <th>Ubicacion</th>
+        <th>Latitud</th>
+        <th>Longitud</th>
+        <th>Departamento</th> <!-- Nueva columna para departamento -->
+        <th>Actions</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let almacen of almacenes; let i = index">
+        <td>{{almacen.id}}</td>
+        <td>{{almacen.name}}</td>
+        <td>{{almacen.ubicacion}}</td>
+        <td>{{almacen.latitud}}</td>
+        <td>{{almacen.longitud}}</td>
+        <td>{{almacen.departamento}}</td> <!-- Mostrar departamento -->
+        <td>
+          <button (click)="updateAlm(almacen)" class="btn edit-button">
+            <i class="fas fa-edit"></i>
+          </button>
+          <button (click)="deleteAlm(almacen)" class="btn delete-button">
+            <i class="fas fa-trash-alt"></i>
+          </button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="almacenSelected.id" class="edit-form">
+    <h2>Editar Almacen</h2>
+    <form [formGroup]="registerForm" (ngSubmit)="addAlmacen()">
+      <div>
+        <label for="name">Nombre:</label>
+        <input type="text" id="name" formControlName="name" required>
+      </div>
+      <div>
+        <label for="description">Ubicacion:</label>
+        <input type="text" id="description" formControlName="ubicacion" required>
+      </div>
+      <!--
+      <div>
+        <label>Departamento:</label>
+        <select formControlName="departamento">
+          <option value="" disabled>Selecciona un departamento</option>
+          <option *ngFor="let departamento of departamentos" [value]="departamento.name">{{ departamento.name }}</option>
+        </select>
+      </div>
+
+      <div style="height: 300px;">
+        <app-map
+          [center]="[registerForm.get('latitud')?.value || -16.5000, registerForm.get('longitud')?.value || -68.1193]"
+          (locationSelected)="onLocationSelected($event)">
+        </app-map>
+      </div>
+
+-->
+      <div>
+        <label>Departamento:</label>
+        <select formControlName="departamento" (change)="onDepartamentoChange($event)">
+          <option value="" disabled>Selecciona un departamento</option>
+          <option *ngFor="let departamento of departamentos" [value]="departamento.name">{{ departamento.name }}</option>
+        </select>
+      </div>
+
+      <div style="height: 300px;">
+        <app-map
+          [center]="[registerForm.get('latitud')?.value || -16.5000, registerForm.get('longitud')?.value || -68.1193]"
+          (locationSelected)="onLocationSelected($event)">
+        </app-map>
+      </div>
+
+      <br>
+      <div class="form-actions">
+        <button type="submit">Guardar</button>
+        <button type="button" (click)="resetAlmacenSelection()">Cancelar</button>
+      </div>
+    </form>
+  </div>
+</div>

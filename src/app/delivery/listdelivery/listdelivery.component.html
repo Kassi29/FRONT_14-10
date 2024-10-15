@@ -1,0 +1,38 @@
+
+<div class="container">
+  <h2 *ngIf="!isCreatingDelivery">Lista De Deliverys</h2>
+
+  <div *ngIf="!isCreatingDelivery">
+    <div class="table-container">
+      <table>
+        <thead>
+        <tr>
+          <th>User</th>
+          <th>Apellido</th>
+          <th>Email</th>
+          <th>Empresa</th>
+          <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let delivery of deliverys; let i = index">
+          <td>{{ delivery.user ? delivery.user.name : 'No User' }}</td>
+          <td>{{ delivery.user ? delivery.user.lastname : 'No Apellido' }}</td>
+          <td>{{ delivery.user ? delivery.user.email : 'No Email' }}</td>
+          <td>{{ delivery.empresa ? delivery.empresa.name : 'No Empresa' }}</td>
+          <td>
+
+            <button (click)="deleteDelivery(delivery)" class="btn delete-button" title="Eliminar">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="deliverys.length === 0" class="no-deliveries">
+      <p>No hay deliverys disponibles.</p>
+    </div>
+  </div>
+</div>

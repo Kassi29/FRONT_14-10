@@ -1,0 +1,38 @@
+<div class="container">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <h2>Registrar Almacén</h2>
+
+    <div class="form-group">
+      <input type="text" formControlName="name" required placeholder="Nombre">
+    </div>
+
+    <div class="form-group">
+      <input type="text" formControlName="ubicacion" required placeholder="Ubicación">
+    </div>
+
+    <div class="form-group">
+      <select formControlName="departamento" (change)="onDepartamentoChange($event)">
+        <option value="" disabled selected>Selecciona un departamento</option>
+        <option *ngFor="let departamento of departamentos" [value]="departamento.name">{{ departamento.name }}</option>
+      </select>
+    </div>
+
+    <div style="height: 350px;">
+      <app-map (locationSelected)="onLocationSelected($event.lat, $event.lng)" [center]="mapCenter"></app-map>
+    </div>
+
+    <div class="form-group">
+      <label style="margin-right: 10px;">Latitud</label>
+      <input type="text" formControlName="latitud" required placeholder="Latitud" readonly style="margin-right: 20px;">
+      <label style="margin-right: 10px;">Longitud</label>
+      <input type="text" formControlName="longitud" required placeholder="Longitud" readonly>
+    </div>
+
+
+    <button type="submit">Registrar</button>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </form>
+</div>

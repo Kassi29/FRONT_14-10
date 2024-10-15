@@ -1,0 +1,35 @@
+<div class="container">
+  <h2 class="catalog-title">CATÁLOGO DE PRODUCTOS</h2>
+
+  <div class="filters">
+    <div class="category-dropdown">
+      <button class="dropdown-btn" (click)="toggleDropdown()">
+        Selecciona una categoría <i class="arrow-down"></i>
+      </button>
+      <ul class="category-list" [class.show]="dropdownOpen">
+        <li (click)="onCategoryChange(categoria.id)" *ngFor="let categoria of categorias">
+          {{ categoria.name }}
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="catalog-container">
+    <div class="product-card" *ngFor="let producto of filteredProductos">
+      <img routerLink="/verPro" [src]="producto.imageUrl" alt="{{ producto.name }}" class="product-image" />
+      <div class="product-info">
+        <h3 class="product-title">{{ producto.name }}</h3>
+        <p class="product-description"><strong>Descripción:</strong> {{ producto.description }}</p>
+        <p><strong>Categorías:</strong>
+          <span *ngFor="let category of producto.categories">
+            {{ category.name }}<span *ngIf="!lastCategory(category)">, </span>
+          </span>
+        </p>
+        <p><strong>Stock:</strong> {{ producto.stock }}</p>
+        <p><strong>Precio:</strong> ${{ producto.price }}</p>
+        <p><strong>Vendedor:</strong> {{ producto.seller.name }} {{ producto.seller.lastname }}</p>
+      </div>
+      
+    </div>
+  </div>
+</div>

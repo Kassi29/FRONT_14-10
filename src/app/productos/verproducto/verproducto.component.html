@@ -1,0 +1,24 @@
+<div class="container">
+    <h2>Detalles del Producto</h2>
+  
+    <div class="product-card" *ngIf="producto">
+        <img [src]="producto.imageUrl" alt="{{ producto.name }}" class="product-image" />
+  
+        <div class="product-info">
+            <h3>{{ producto.name }}</h3>
+            <p><strong>Descripción:</strong> {{ producto.description }}</p>
+            <p><strong>Stock:</strong> {{ producto.stock }}</p>
+            <p><strong>Precio:</strong> ${{ producto.price }}</p>
+            
+            <div class="quantity-selection">
+                <label for="quantity">Cantidad:</label>
+                <input type="number" id="quantity" [(ngModel)]="selectedQuantity" min="1" max="{{ producto.stock }}" />
+               
+            </div>
+
+            <div class="actions">
+                <button (click)="agregarAlCarrito(producto, selectedQuantity)">Agregar al carrito</button>
+            </div>
+        </div>
+    </div>
+</div>

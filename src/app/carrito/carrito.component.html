@@ -1,0 +1,32 @@
+<div class="container">
+    <h2>Lista De Productos</h2>
+    <div class="table-container">
+      <table>
+        <tbody>
+        <tr *ngFor="let producto of productos; let i = index">
+        <td>
+            <img [src]="producto.imageUrl" alt="{{ producto.name }}" style="max-width: 70px; max-height: 70px;">
+            <div *ngIf="!producto.imageUrl">Sin imagen</div>
+        </td>
+          <td>{{ producto.id }}</td>
+          <td>{{ producto.name }}</td>
+          <td>{{ producto.description}}</td>
+          <td>{{ producto.stock }}</td>
+          <td>{{ producto.price}}</td>
+          <div class="quantity-selection">
+            <label for="quantity">Cantidad:</label>
+            <input type="number" id="quantity" [(ngModel)]="selectedQuantity" min="1" max="{{ producto.stock }}" />
+            <span>Total: ${{ selectedQuantity * producto.price }}</span>
+        </div>
+  
+  
+          <td>
+            <button (click)="deletePro(producto)" class="btn delete-button" title="Eliminar">
+              <i class="fas fa-trash-alt"></i>
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+      <button routerLink="/web2/pago">Comprar</button>
+    </div>
