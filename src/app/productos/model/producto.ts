@@ -9,6 +9,9 @@ export class producto {
   stock!: number;
   price!: number; // Cambiado a 'price' para que coincida con el backend
   imageUrl!: string; // Se deja comentado ya que no lo necesitas por ahora
-  seller!: { id: number, name: string, lastname: string, email: string };
+  //seller!: { id: number, name: string, lastname: string, email: string };
+  sellerEmail!: string;
   almacen!: almacen; // Agregado para incluir el almacén
 }
+
+

@@ -129,7 +129,7 @@ export class ListproductoComponent implements OnInit {
     this.imagenFile = null;
     this.previewUrl = null;
   }
-
+/*
   getUserEmail(sellerId: number): void {
     this.http.get<string>(`/api/seller/${sellerId}`).subscribe(
       email => {
@@ -146,6 +146,8 @@ export class ListproductoComponent implements OnInit {
   }
 
 
+
+ */
 
 
 }

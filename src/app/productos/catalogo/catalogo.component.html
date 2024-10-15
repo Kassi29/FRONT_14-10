@@ -10,6 +10,7 @@
         <li (click)="onCategoryChange(categoria.id)" *ngFor="let categoria of categorias">
           {{ categoria.name }}
         </li>
+        <li (click)="showAllProducts()">Mostrar Todos los Productos</li> <!-- Botón para mostrar todos -->
       </ul>
     </div>
   </div>
@@ -27,9 +28,8 @@
         </p>
         <p><strong>Stock:</strong> {{ producto.stock }}</p>
         <p><strong>Precio:</strong> ${{ producto.price }}</p>
-        <p><strong>Vendedor:</strong> {{ producto.seller.name }} {{ producto.seller.lastname }}</p>
+        <p><strong>Vendedor:</strong> {{ producto.sellerEmail}}</p>
       </div>
-      
     </div>
   </div>
 </div>

@@ -65,9 +65,14 @@ export class CatalogoComponent implements OnInit {
     );
   }
 
+  // Nuevo método para mostrar todos los productos
+  showAllProducts(): void {
+    this.filteredProductos = [...this.productos]; // Mostrar todos los productos
+  }
+
+  // Resto del código permanece igual
   agregarAlCarrito(producto: producto, cantidad: number): void {
     console.log(`Agregar ${cantidad} unidades de ${producto.name} al carrito.`);
-    // Aquí puedes implementar la lógica para agregar el producto al carrito
   }
 
   resetProductoSelection(): void {
@@ -76,16 +81,12 @@ export class CatalogoComponent implements OnInit {
   }
 
   lastCategory(category: { id: number, name: string, description: string }): boolean {
-    console.log('Producto seleccionado:', this.productoSelected);
-    console.log('Categorías del producto seleccionado:', this.productoSelected.categories);
-
     if (this.productoSelected.categories && this.productoSelected.categories.length > 0) {
       const lastCategory = this.productoSelected.categories[this.productoSelected.categories.length - 1];
       return lastCategory.id === category.id;
     }
     return false;
   }
-
 
   toggleDropdown(): void {
     this.dropdownOpen = !this.dropdownOpen;
@@ -106,5 +107,4 @@ export class CatalogoComponent implements OnInit {
       this.filteredProductos = [...this.productos]; // Mostrar todos si no hay filtro
     }
   }
-
 }
