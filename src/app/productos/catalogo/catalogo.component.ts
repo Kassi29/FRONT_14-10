@@ -168,4 +168,15 @@ export class CatalogoComponent implements OnInit {
     return category ? category.name : undefined;
   }
 
+  openModal(producto: producto): void {
+    this.productoSelected = producto; // Asigna el producto seleccionado
+    this.isModalOpen = true; // Abre el modal
+  }
+  closeModal(): void {
+    this.isModalOpen = false; // Cierra el modal
+    this.resetProductoSelection(); // Resetea la selección del producto
+  }
+
+
+
 }
