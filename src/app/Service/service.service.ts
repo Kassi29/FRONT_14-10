@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { usuario } from '../links/register/model/usuario';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators';
+
 
 
 @Injectable({
@@ -35,6 +35,10 @@ export class ServiceService {
 
   createAdmin(usuario: usuario):Observable<usuario> {
     return this.http.post<usuario>(this.url, usuario);
+  }
+
+  createArtesano(usuario: usuario, comunidadId: number): Observable<usuario>{
+    return this.http.post<usuario>(`${this.url}/registerArtesano?comunidadId=${comunidadId}`, usuario);
   }
 
   changePassword(data: any, token: string): Observable<any> {

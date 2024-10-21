@@ -59,6 +59,7 @@ export class AdddeliveryComponent implements  OnInit {
             this.registerForm.reset();
             this.emailExistsError = false;
             this.selectedEmpresa = [];
+            this.router.navigateByUrl('/panel/listdeliv');
           },
           error: (error) => {
             if (error.status === 400) {

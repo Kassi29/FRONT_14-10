@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import {DeliveryDTO} from "../model/DeliveryDTO";
+import {sellerDTO} from "../../artesanos/model/SellerDto";
 
 
 @Injectable({
@@ -19,6 +20,11 @@ export class DeliveryService {
   deleteDelivery(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`); // Ajusta la ruta según tu configuración
   }
+
+  update(deliveryRoleId : number, updatedDelivery: DeliveryDTO): Observable<DeliveryDTO>{
+    return this.http.put<DeliveryDTO>(`${this.apiUrl}/${deliveryRoleId}`, updatedDelivery )
+  }
+
 
 
 }

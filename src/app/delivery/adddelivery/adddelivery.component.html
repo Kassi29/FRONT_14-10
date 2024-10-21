@@ -1,6 +1,6 @@
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <h2>Agregar Delivery</h2>
-  
+
     <!-- Nombres -->
     <div class="form-group">
       <input formControlName="name" type="text" placeholder="Nombres" required>
@@ -10,7 +10,7 @@
         </div>
       </div>
     </div>
-  
+
     <!-- Apellidos -->
     <div class="form-group">
       <input formControlName="lastname" type="text" placeholder="Apellidos" required>
@@ -20,7 +20,7 @@
         </div>
       </div>
     </div>
-  
+
     <!-- Correo -->
     <div class="form-group">
       <input formControlName="email" type="email" placeholder="Correo" required>
@@ -33,7 +33,7 @@
         </div>
       </div>
     </div>
-  
+
     <!-- Empresa -->
     <div class="form-group">
         <label for="empresa">Seleccionar Empresa:</label>
@@ -42,7 +42,7 @@
           <option *ngFor="let empresa of empresa" [value]="empresa.id">{{ empresa.name }}</option>
         </select>
       </div>
-  
+
       <div class="selected-empresa">
         <h4 class="titulo">Empresas Seleccionadas:</h4>
         <ul class="lista-empresas">
@@ -74,11 +74,16 @@
       </div>
     </div>
   </div>
-  
+
     <!-- Botón de Enviar -->
     <div class="form-group">
       <button type="submit" class="btn">Registrar</button>
     </div>
   </form>
-  
+
+
+
+
+
+
 
