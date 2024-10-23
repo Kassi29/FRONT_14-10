@@ -1,13 +1,37 @@
 import { Injectable } from '@angular/core';
 import { producto } from "../../productos/model/producto";
+import {HttpClient} from "@angular/common/http";
+import {Carrito} from "../model/carrito";
+import {catchError, tap} from "rxjs/operators";
+import {throwError} from "rxjs";
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CarritoService {
   private productosCarrito: { producto: producto; cantidad: number }[] = [];
+
   private totalCost: number | null = null;
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  private apiUrl = 'http://localhost:8080/carrito';
+
+
+    enviarCarrito(carrito: Carrito) {
+      console.log('Enviando carrito al backend:', carrito);
+       return this.http.post<Carrito>(this.apiUrl, carrito).pipe(
+        tap(response => {
+          console.log('Respuesta del backend:', response);
+        }),
+        catchError(error => {
+          console.error('Error al enviar el carrito:', error);
+          return throwError(error);
+        })
+      );
+    }
+
+
 
   addToCart(producto: producto, cantidad: number): void {
     console.log('Producto a agregar:', producto);
@@ -32,6 +56,7 @@ export class CarritoService {
     }
 
     console.log('Estado del carrito después de agregar:', this.productosCarrito);
+    console.log('Estado del carrito después de agregar:', JSON.stringify(this.productosCarrito, null, 2));
   }
 
   getCartProducts() {
@@ -50,6 +75,11 @@ export class CarritoService {
 
   getTotalCost(): number | null {
     return this.totalCost;
+  }
+
+  clearCart() {
+    this.productosCarrito = []; // Limpia el carrito
+    console.log('Carrito limpiado.');
   }
 
 }
