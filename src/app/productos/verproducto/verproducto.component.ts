@@ -22,10 +22,10 @@ export class VerproductoComponent implements OnInit {
   }
 
   loadProducto(): void {
-    const id = Number(this.route.snapshot.paramMap.get('id')); 
+    const id = Number(this.route.snapshot.paramMap.get('id'));
     this.productosService.findProductoById(id).subscribe(
-      (producto: producto) => {  
-        this.producto = producto; 
+      (producto: producto) => {
+        this.producto = producto;
       },
       (error) => {
         console.error('Error al cargar el producto:', error);
@@ -34,12 +34,5 @@ export class VerproductoComponent implements OnInit {
 }
 
 
-  agregarAlCarrito(producto: producto, cantidad: number): void {
-    if (cantidad <= producto.stock && cantidad > 0) {
-      console.log(`Agregar ${cantidad} unidades de ${producto.name} al carrito.`);
-      // Aquí puedes implementar la lógica para agregar el producto al carrito
-    } else {
-      console.error('Cantidad no válida o no hay suficiente stock disponible.');
-    }
-  }
+
 }

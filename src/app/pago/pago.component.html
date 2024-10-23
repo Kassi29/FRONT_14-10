@@ -1,25 +1,27 @@
 <div class="payment-container">
-    <h2>Método de Pago</h2>  
-    <div>
-      <h4>Datos de Facturación</h4>
-      <form>
-        <input type="text"  placeholder="Nombre" />
-        <input type="email" placeholder="Correo Electrónico" />
-        <input type="text" placeholder="Dirección" />
-      </form>
-    </div>
-  
-    <div>
-      <h4>Datos de Envío</h4>
-      <form>
-        <input type="text"  placeholder="Dirección" />
-        <input type="text" placeholder="Ciudad" />
-      </form>
-    </div>
-  
-    <button >Generar Código QR</button>
+  <h2>Método de Pago</h2>
 
-  
-    <p>Gracias por su preferencia.</p>
+  <div class="billing-info">
+    <h4>Datos de Facturación</h4>
+    <form>
+      <input type="text" placeholder="Nombre" required />
+      <input type="text" placeholder="NIT/CI" required />
+    </form>
   </div>
-  
+
+  <div class="shipping-info">
+    <h4>Datos de Envío</h4>
+    <form>
+      <input type="text" placeholder="Dirección" required />
+      <input type="text" placeholder="Ciudad" required />
+    </form>
+  </div>
+
+  <div *ngIf="qrCodeUrl">
+    <h4>Código QR</h4>
+    <img [src]="qrCodeUrl" alt="Código QR" />
+  </div>
+
+  <button (click)="finalizarCompra()" class="finalize-button">Finalizar Compra</button>
+  <p class="thank-you-message">Gracias por su preferencia.</p>
+</div>

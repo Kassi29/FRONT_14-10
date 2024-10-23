@@ -6,6 +6,8 @@ import { categoria } from 'src/app/categorias/model/categoria';
 import { CategoriasService } from 'src/app/categorias/service/categorias.service';
 import { ServiceService } from "../../Service/service.service";
 import { usuario } from "../../links/register/model/usuario";
+import {CarritoService} from "../../carrito/service/carrito.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-catalogo',
@@ -25,13 +27,18 @@ export class CatalogoComponent implements OnInit {
   selectedSellers: usuario[] = []; // Para almacenar artesanos seleccionados
   selectedCategories: number[] = []; // Para almacenar IDs de categorías seleccionadas
 
+
+
   registerForm: FormGroup;
 
   constructor(
     private productosService: ProductosService,
     private categoriasService: CategoriasService,
     private service: ServiceService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private cartService:CarritoService,
+    private router: Router
+
   ) {
     this.registerForm = this.formBuilder.group({
       categoria: [{ value: '', disabled: true }]
@@ -42,6 +49,7 @@ export class CatalogoComponent implements OnInit {
     this.loadProductos();
     this.loadCategorias();
     this.loadSellers();
+    console.log('Productos en el carrito al iniciar:', this.productos);
   }
 
   loadProductos(): void {
@@ -88,9 +96,6 @@ export class CatalogoComponent implements OnInit {
     this.filteredProductos = [...this.productos]; // Mostrar todos los productos
   }
 
-  agregarAlCarrito(producto: producto, cantidad: number): void {
-    console.log(`Agregar ${cantidad} unidades de ${producto.name} al carrito.`);
-  }
 
   resetProductoSelection(): void {
     this.productoSelected = new producto();
@@ -168,10 +173,38 @@ export class CatalogoComponent implements OnInit {
     return category ? category.name : undefined;
   }
 
+
+  agregarAlCarrito(producto: producto, cantidad: number): void {
+    if (cantidad > producto.stock) {
+      alert('La cantidad seleccionada excede el stock disponible.');
+      return;
+    }
+
+    // Agrega este log para ver el estado del carrito antes de agregar
+    console.log('Estado del carrito antes de agregar:', this.cartService.getCartProducts());
+
+
+    this.cartService.addToCart(producto, cantidad);
+    console.log('Productos en el carrito después de agregar:', this.cartService.getCartProducts());
+
+    // Cerrar el modal después de agregar al carrito
+    this.closeModal();
+  }
+
+  irAlCarrito(): void {
+    this.router.navigate(['/web/carrito']); // Ajusta la ruta según tu estructura
+  }
+
+
+
+
   openModal(producto: producto): void {
     this.productoSelected = producto; // Asigna el producto seleccionado
+    this.selectedQuantity = 1; // Reinicia la cantidad seleccionada
     this.isModalOpen = true; // Abre el modal
+    console.log('Producto seleccionado:', this.productoSelected);
   }
+
   closeModal(): void {
     this.isModalOpen = false; // Cierra el modal
     this.resetProductoSelection(); // Resetea la selección del producto

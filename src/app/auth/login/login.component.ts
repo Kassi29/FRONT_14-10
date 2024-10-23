@@ -14,12 +14,13 @@ export class LoginComponent implements OnInit {
   userRoles: string[] = [];
   message: string = '';
   messageType: string = 'success'; // New property for message type
-  
+
 
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
     private authService: AuthService
+
   ) {
     this.loginForm = this.formBuilder.group({
       user: ['', [Validators.required, Validators.email]],
@@ -33,7 +34,7 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.login();
     }
-    
+
   }
 
   get user(): AbstractControl {
@@ -79,4 +80,5 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
 }

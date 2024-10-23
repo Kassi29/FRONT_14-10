@@ -14,9 +14,9 @@ import { ArtesanoComponent } from './pages/main2/roles/artesano/artesano.compone
 import { DeliveryComponent } from './pages/main2/roles/delivery/delivery.component';
 import { AddalmacenComponent } from './almacen/addalmacen/addalmacen.component';
 import { LisalmacenComponent } from './almacen/lisalmacen/lisalmacen.component';
-import { VerproductoComponent } from './productos/verproducto/verproducto.component';
 
-import { MainUserComponent } from './pages/main-user/main-user.component'; 
+
+import { MainUserComponent } from './pages/main-user/main-user.component';
 import { ListcomunidadComponent } from './comunidad/listcomunidad/listcomunidad.component';
 import { AddcomunidadComponent } from './comunidad/addcomunidad/addcomunidad.component';
 import { AddempresaComponent } from './empresa/addempresa/addempresa.component';
@@ -48,7 +48,6 @@ const routes: Routes = [
     {path:'register', component:RegisterComponent},
     {path: 'recover', component:RecoverComponent},
     {path: 'catalogo', component: CatalogoComponent},
-    {path: 'verPro', component: VerproductoComponent},
     {path: 'carrito', component: CarritoComponent},
     {path: 'auth', component: AutentificacionComponent}
   ]},
@@ -57,7 +56,6 @@ const routes: Routes = [
     {path:'inicio', component:DashboardComponent},
     {path: 'catalogo', component: CatalogoComponent},
     {path: 'passw', component: PasswordComponent },
-    {path: 'verPro', component: VerproductoComponent}, 
     {path: 'pago', component: PagoComponent},
     {path: 'carrito', component: CarritoComponent}
   ]},

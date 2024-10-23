@@ -1,32 +1,54 @@
 <div class="container">
-    <h2>Lista De Productos</h2>
-    <div class="table-container">
-      <table>
-        <tbody>
-        <tr *ngFor="let producto of productos; let i = index">
+  <h2 class="cart-title">Lista De Productos en el Carrito</h2>
+  <div class="table-container">
+    <table *ngIf="productocarrito.length > 0" class="cart-table">
+      <thead>
+      <tr>
+        <th>Imagen</th>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Precio</th>
+        <th>Cantidad</th>
+        <th>Acciones</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let producto of productocarrito; let i = index">
         <td>
-            <img [src]="producto.imageUrl" alt="{{ producto.name }}" style="max-width: 70px; max-height: 70px;">
-            <div *ngIf="!producto.imageUrl">Sin imagen</div>
+          <img *ngIf="producto.producto.imageUrl"
+               [src]="producto.producto.imageUrl"
+               alt="{{ producto.producto.name }}"
+               class="product-image"
+               style="width: 100px; height: auto;" />
+          <div *ngIf="!producto.producto.imageUrl">Sin imagen</div>
         </td>
-          <td>{{ producto.id }}</td>
-          <td>{{ producto.name }}</td>
-          <td>{{ producto.description}}</td>
-          <td>{{ producto.stock }}</td>
-          <td>{{ producto.price}}</td>
-          <div class="quantity-selection">
-            <label for="quantity">Cantidad:</label>
-            <input type="number" id="quantity" [(ngModel)]="selectedQuantity" min="1" max="{{ producto.stock }}" />
-            <span>Total: ${{ selectedQuantity * producto.price }}</span>
-        </div>
-  
-  
-          <td>
-            <button (click)="deletePro(producto)" class="btn delete-button" title="Eliminar">
-              <i class="fas fa-trash-alt"></i>
-            </button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
-      <button routerLink="/web2/pago">Comprar</button>
+        <td>{{ producto.producto.name }}</td>
+        <td>{{ producto.producto.description }}</td>
+        <td>{{ producto.producto.price | currency }}</td>
+        <td>
+          <input type="number" [(ngModel)]="producto.cantidad"
+                 [min]="1" [max]="producto.producto.stock"
+                 (ngModelChange)="updateQuantity(producto, $event)" />
+        </td>
+        <td>
+          <button (click)="deleteProduct(producto.producto)" class="delete-button">Eliminar</button>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div *ngIf="productocarrito.length === 0" class="empty-cart-message">
+      <p>No tienes ningún elemento en tu carrito!</p>
     </div>
+
+    <div class="total-section" *ngIf="productocarrito.length > 0">
+      <button (click)="calculateTotal()" class="calculate-button">Calcular</button>
+      <div *ngIf="totalCost !== null" class="total-display">
+        <p>Total a pagar: {{ totalCost | currency }}</p>
+      </div>
+    </div>
+
+    <button (click)="onCheckout()" *ngIf="productocarrito.length > 0" class="checkout-button">Comprar</button>
+
+  </div>
+</div>

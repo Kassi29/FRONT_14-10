@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { producto } from '../model/producto';
 import { ProductosService } from '../service/productos.service';
 import {AuthService} from "../../realAuth/service/auth.service";
-import {Observable} from "rxjs";
 import {HttpClient} from "@angular/common/http";
  // Asegúrate de importar el servicio de autenticación
 
